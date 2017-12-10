@@ -1,0 +1,20 @@
+version: '2'
+services:
+  veyring_frontend_sql_db:
+    image: mariadb:10
+    environment:
+      MYSQL_ROOT_PASSWORD: AbcdEfg123
+    ports:
+      - "3310:3306"
+    volumes:
+      -  ./mysqldata:/var/lib/mysql
+  veyring_frontend:
+    image: veyring_frontend
+    build: ./docker/web
+    restart: always
+    ports:
+      - "8181:80"
+    links:
+      - veyring_frontend_sql_db:sql_server
+    volumes:
+      - ./Project:/var/www/html
